@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artentela - Tienda de Ropa Online</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .pink-gradient {
+            background: linear-gradient(135deg, #ffeef8 0%, #f8e8ff 100%);
+        }
+
+        .gold-gradient {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+        }
+
+        .product-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-card {
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .section-card:hover {
+            transform: scale(1.05);
+        }
+
+        .subsection-card {
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .subsection-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .cart-item {
+            border-left: 4px solid #f093fb;
+            background: rgba(240, 147, 251, 0.1);
+        }
+
+        .quantity-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .add-to-cart-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .whatsapp-btn {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #ffeef8 0%, #f8e8ff 50%, #e8f5ff 100%);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .active-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <h1 class="text-3xl font-bold text-purple-600 cursor-pointer flex items-center"
+                        onclick="showHome()">
+                        <img src="./img/logo.jpg" alt="Logo Artentela" class="w-16 h-16 mr-2" />
+                        Artentela
+                    </h1>
+                </div>
+
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" onclick="showHome()"
+                        class="text-gray-700 hover:text-purple-600 transition duration-300 font-medium">Inicio</a>
+                    <a href="#" onclick="showSection('damas')"
+                        class="text-gray-700 hover:text-purple-600 transition duration-300 font-medium">Damas</a>
+                    <a href="#" onclick="showSection('caballeros')"
+                        class="text-gray-700 hover:text-purple-600 transition duration-300 font-medium">Caballeros</a>
+                    <a href="#" onclick="showSection('ninos')"
+                        class="text-gray-700 hover:text-purple-600 transition duration-300 font-medium">Niños</a>
+                </nav>
+
+                <div class="flex items-center space-x-4">
+                    <button onclick="toggleCart()"
+                        class="relative p-2 text-gray-700 hover:text-purple-600 transition duration-300">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span id="cart-count"
+                            class="absolute -top-2 -right-2 bg-pink-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="md:hidden bg-white shadow-md">
+        <div class="flex justify-around py-2">
+            <button onclick="showHome()" class="flex flex-col items-center py-2 text-gray-700">
+                <i class="fas fa-home"></i>
+                <span class="text-xs">Inicio</span>
+            </button>
+            <button onclick="showSection('damas')" class="flex flex-col items-center py-2 text-gray-700">
+                <i class="fas fa-female"></i>
+                <span class="text-xs">Damas</span>
+            </button>
+            <button onclick="showSection('caballeros')" class="flex flex-col items-center py-2 text-gray-700">
+                <i class="fas fa-male"></i>
+                <span class="text-xs">Caballeros</span>
+            </button>
+            <button onclick="showSection('ninos')" class="flex flex-col items-center py-2 text-gray-700">
+                <i class="fas fa-child"></i>
+                <span class="text-xs">Niños</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Home Section -->
+        <div id="home-section" class="section">
+            <!-- Hero Section -->
+            <section class="hero-section rounded-lg p-8 mb-12">
+                <div class="text-center">
+                    <h2 class="text-5xl font-bold text-gray-800 mb-4">Bienvenidos a Artentela</h2>
+                    <p class="text-xl text-gray-600 mb-8">Donde la moda se encuentra con el arte</p>
+                    <button onclick="showSection('damas')"
+                        class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full font-semibold text-lg transition duration-300">
+                        Explorar Colección
+                    </button>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section class="bg-white rounded-lg shadow-lg p-8 mb-12">
+                <h3 class="text-3xl font-bold text-center text-gray-800 mb-8">¿Quiénes Somos?</h3>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            Artentela es más que una tienda de ropa, somos una marca que fusiona el arte textil con las
+                            tendencias modernas. Desde nuestros inicios, nos hemos dedicado a ofrecer prendas de calidad
+                            excepcional que reflejen la personalidad única de cada cliente.
+                        </p>
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            Nuestra colección abarca desde ropa elegante para damas y caballeros hasta adorables
+                            conjuntos para los más pequeños de la casa. Cada pieza es cuidadosamente seleccionada para
+                            garantizar comodidad, estilo y durabilidad.
+                        </p>
+                        <p class="text-gray-600 leading-relaxed">
+                            En Artentela, creemos que la moda es una forma de expresión personal, por eso ofrecemos una
+                            amplia variedad de estilos para todos los gustos y ocasiones.
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <div
+                            class="bg-gradient-to-r from-purple-400 to-pink-400 rounded-full mx-auto flex items-center justify-center">
+                            <img src="./img/logo.jpg" alt="Logo Artentela" class="w-80 h-80 mr-2" />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories Preview -->
+            <section class="mb-12">
+                <h3 class="text-3xl font-bold text-center text-gray-800 mb-8">Nuestras Categorías</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!--<div class="section-card rounded-lg p-6 text-center text-white cursor-pointer" onclick="showSection('damas')">
+                        <i class="fas fa-female text-4xl mb-4"></i>
+                        <h4 class="text-xl font-semibold mb-2">Damas</h4>
+                        <p>Elegancia y sofisticación en cada prenda</p>
+                    </div> -->
+                    <div class="section-card rounded-lg p-6 text-center text-white cursor-pointer"
+                        onclick="showSection('caballeros')">
+                        <i class="fas fa-male text-4xl mb-4"></i>
+                        <h4 class="text-xl font-semibold mb-2">Caballeros</h4>
+                        <p>Estilo y distinción para el hombre moderno</p>
+                    </div>
+                    <div class="section-card rounded-lg p-6 text-center text-white cursor-pointer"
+                        onclick="showSection('ninos')">
+                        <i class="fas fa-child text-4xl mb-4"></i>
+                        <h4 class="text-xl font-semibold mb-2">Niños</h4>
+                        <p>Comodidad y diversión para los pequeños</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Category Sections -->
+        <div id="category-section" class="section hidden">
+            <div class="mb-6">
+                <button onclick="showHome()" class="text-purple-600 hover:text-purple-800 transition duration-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Volver al inicio
+                </button>
+            </div>
+
+            <h2 id="category-title" class="text-4xl font-bold text-center text-gray-800 mb-8"></h2>
+
+            <div id="subsections-grid" class="grid md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Subsections will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Subsection Products -->
+        <div id="products-section" class="section hidden">
+            <div class="mb-6">
+                <button onclick="goBack()" class="text-purple-600 hover:text-purple-800 transition duration-300">
+                    <i class="fas fa-arrow-left mr-2"></i>Volver
+                </button>
+            </div>
+
+            <h2 id="subsection-title" class="text-4xl font-bold text-center text-gray-800 mb-8"></h2>
+
+            <div id="products-grid" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Products will be populated by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Shopping Cart Sidebar -->
+    <div id="cart-sidebar"
+        class="fixed right-0 top-0 h-full w-80 bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300">
+        <div class="p-6 border-b">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-bold text-gray-800">Carrito de Compras</h3>
+                <button onclick="toggleCart()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="cart-items" class="p-6 flex-1 overflow-y-auto" style="height: calc(100vh - 200px);">
+            <p class="text-gray-500 text-center">Tu carrito está vacío</p>
+        </div>
+
+        <div class="p-6 border-t">
+            <div class="mb-4">
+                <div class="flex justify-between items-center text-lg font-bold">
+                    <span>Total:</span>
+                    <span id="cart-total">$0</span>
+                </div>
+            </div>
+            <button id="checkout-btn" onclick="checkout()"
+                class="whatsapp-btn w-full text-white py-3 rounded-lg font-semibold hover:opacity-90 transition duration-300 disabled:opacity-50"
+                disabled>
+                <i class="fab fa-whatsapp mr-2"></i>Realizar Pedido por WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden" onclick="toggleCart()"></div>
+
+    <script>
+        // Data Structure
+        const categories = {
+            //damas: {
+            //    title: 'Ropa para Damas',
+            //    subsections: ['Conjuntos', 'Oversize', 'Camisas', 'Camisetas', 'Pantalones', 'Vestidos', 'Faldas', 'Blazers']
+            //},
+            caballeros: {
+                title: 'Ropa para Caballeros',
+                subsections: ['Conjuntos', 'Camisas', 'Camisetas', 'Polos']
+            },
+            ninos: {
+                title: 'Ropa para Niños',
+                subsections: ['Conjuntos', 'Pijamas']
+            }
+        };
+
+        // Mock product data
+        const products = {
+            //'damas-conjuntos': [
+            //    {id: 100, name: 'Conjunto Elegante Rosa', description: 'Conjunto de dos piezas en tela premium', price: 89.99, image: 'https://via.placeholder.com/300x400/ffc0cb/ffffff?text=Conjunto+Rosa'},
+            //    {id: 200, name: 'Conjunto Deportivo', description: 'Conjunto cómodo para actividades diarias', price: 65.00, image: 'https://via.placeholder.com/300x400/e6e6fa/000000?text=Conjunto+Deportivo'},
+            //    {id: 3, name: 'Conjunto Formal', description: 'Para ocasiones especiales', price: 120.00, image: 'https://via.placeholder.com/300x400/ffe4e1/000000?text=Conjunto+Formal'},
+            //    {id: 4, name: 'Conjunto Casual', description: 'Perfecto para el día a día', price: 75.50, image: 'https://via.placeholder.com/300x400/f0f8ff/000000?text=Conjunto+Casual'}
+            //],
+            //'damas-oversize': [
+            //    {id: 5, name: 'Sudadera Oversize Blanca', description: 'Sudadera cómoda y moderna', price: 45.00, image: 'https://via.placeholder.com/300x400/ffffff/000000?text=Sudadera+Oversize'},
+            //    {id: 6, name: 'Camiseta Oversize Rosa', description: 'Camiseta amplia y cómoda', price: 28.99, image: 'https://via.placeholder.com/300x400/ffb6c1/ffffff?text=Camiseta+Oversize'},
+            //    {id: 7, name: 'Hoodie Oversize', description: 'Con capucha y bolsillo frontal', price: 55.00, image: 'https://via.placeholder.com/300x400/dda0dd/ffffff?text=Hoodie+Oversize'},
+            //    {id: 8, name: 'Vestido Oversize', description: 'Vestido amplio y elegante', price: 68.00, image: 'https://via.placeholder.com/300x400/f5deb3/000000?text=Vestido+Oversize'}
+            //],
+            //'damas-camisas': [
+            //    {id: 9, name: 'Camisa Blanca Clásica', description: 'Camisa formal de corte perfecto', price: 42.00, image: 'https://via.placeholder.com/300x400/ffffff/000000?text=Camisa+Blanca'},
+            //    {id: 10, name: 'Camisa Rayada', description: 'Estilo marinero moderno', price: 38.50, image: 'https://via.placeholder.com/300x400/f0f8ff/000080?text=Camisa+Rayada'},
+            //    {id: 11, name: 'Camisa Floral', description: 'Con estampado delicado', price: 44.99, image: 'https://via.placeholder.com/300x400/ffe4e1/ff69b4?text=Camisa+Floral'},
+            //    {id: 12, name: 'Camisa Denim', description: 'Clásica camisa de mezclilla', price: 52.00, image: 'https://via.placeholder.com/300x400/4682b4/ffffff?text=Camisa+Denim'}
+            //],
+            'caballeros-conjuntos': [
+                { id: 1, name: 'Conjunto Masculino Casual en Beige Texturizado', description: 'Conjunto masculino casual en color beige con diseño texturizado de rombos, compuesto por una camiseta oversize con aplique decorativo en el pecho y un short a juego con cintura ajustable por cordón; perfecto para el día a día.', price: 99000, image: './img/1.jpg' },
+                { id: 2, name: 'Conjunto Masculino Casual en Beige Texturizado', description: 'Conjunto masculino en color beige claro con textura en relieve de patrón zigzag, compuesto por camiseta oversize con aplique central tipo escudo y short a juego con ajuste de cordón, ideal para un estilo fresco, moderno y cómodo, perfecto para climas cálidos y ocasiones informales.', price: 99000.00, image: './img/2.jpg' },
+                { id: 2, name: 'Conjunto Deportivo OKNO en Negro', description: 'Conjunto moderno y minimalista compuesto por una camiseta negra de manga corta y shorts a juego. La camiseta cuenta con un pequeño detalle en blanco con la palabra "OKNO", mientras que el pantalón corto tiene un parche marrón con el mismo logo, aportando un toque distintivo.', price: 99000.00, image: './img/28.jpg' },
+            ],
+            'caballeros-polos': [
+                { id: 3, name: 'Polo Deportivo Casual para Hombre en Color Marfil', description: 'Polo masculino de estilo casual en tono marfil con detalles deportivos, presenta cuello tipo camisa en contraste negro y cierre frontal con cremallera decorativa, brindando un look moderno y versátil.', price: 55000.00, image: './img/3.jpg' },
+                { id: 4, name: 'Polo con Diseño Geométrico en Gris, Blanco y Negro', description: 'Camiseta moderna de manga corta con un diseño geométrico único en color gris, blanco y negro. La parte superior presenta un patrón de rombos sobre fondo negro, mientras que la parte inferior es gris claro liso, creando un contraste elegante.', price: 65000.00, image: './img/4.jpg' },
+                { id: 5, name: 'Polo Deportivo Casual para Hombre en Color Azul', description: 'Polo masculino de estilo casual en tono azul con detalles deportivos, presenta cuello tipo camisa en contraste negro y cierre frontal con cremallera decorativa, brindando un look moderno y versátil.', price: 55000.00, image: './img/5.jpg' },
+                { id: 6, name: 'Polo Deportivo Casual para Hombre en Color Agua Marina', description: 'Polo masculino de estilo casual en tono agua marina con detalles deportivos, presenta cuello tipo camisa en contraste negro y cierre frontal con cremallera decorativa, brindando un look moderno y versátil.', price: 55000.00, image: './img/6.jpg' },
+                { id: 7, name: 'Polo Deportivo Casual para Hombre en Color Verde', description: 'Polo masculino de estilo casual en tono verde con detalles deportivos, presenta cuello tipo camisa en contraste negro y cierre frontal con cremallera decorativa, brindando un look moderno y versátil.', price: 55000.00, image: './img/7.jpg' },
+                { id: 8, name: 'Polo Deportivo Casual para Hombre en Color Rojo', description: 'Polo masculino de estilo casual en tono rojo con detalles deportivos, presenta cuello tipo camisa en contraste negro y cierre frontal con cremallera decorativa, brindando un look moderno y versátil.', price: 55000.00, image: './img/8.jpg' },
+                { id: 9, name: 'Polo con Diseño Botánico en Color Negro', description: 'Camiseta tipo polo en color negro con un elegante patrón botánico en blanco. Sus ramas y hojas estilizadas crean un diseño sofisticado y moderno. Perfecta para quienes buscan un estilo versátil que se adapte tanto a ocasiones casuales como formales.', price: 65000.00, image: './img/9.jpg' },
+                { id: 10, name: 'Polo Deportivo Casual para Hombre en Color Morado', description: 'Polo masculino de estilo casual en tono morado con detalles deportivos, presenta cuello tipo camisa en contraste negro y cierre frontal con cremallera decorativa, brindando un look moderno y versátil.', price: 55000.00, image: './img/10.jpg' },
+                { id: 11, name: 'Polo negro con franjas y detalles en blanco', description: 'Esta elegante camiseta tipo polo en color negro presenta un diseño de franjas blancas horizontales en el pecho y las mangas, acompañadas de pequeños puntos blancos que le dan un toque moderno.', price: 65000.00, image: './img/11.jpg' },
+                { id: 12, name: 'Polo Deportivo Casual para Hombre en Color Beige', description: 'Polo masculino de estilo casual en tono beige con detalles deportivos, presenta cuello tipo camisa en contraste negro y cierre frontal con cremallera decorativa, brindando un look moderno y versátil.', price: 55000.00, image: './img/12.jpg' },
+            ],
+            'caballeros-camisetas': [
+                {
+                    id: 18,
+                    name: 'Camiseta New Balance Negra',
+                    description: 'Camiseta negra de la marca New Balance con diseño deportivo. Presenta el icónico logo "NB" en blanco en el pecho y el texto "new balance" impreso verticalmente en el lateral inferior derecho.',
+                    price: 45000.00,
+                    image: './img/18.jpg'
+                },
+                {
+                    id: 19,
+                    name: 'Camiseta Nike Blanca Clásica',
+                    description: 'Camiseta blanca Nike de corte clásico con el icónico logo swoosh bordado en negro en el lado izquierdo del pecho. Perfecta para uso deportivo y casual.',
+                    price: 38000.00,
+                    image: './img/20.jpg'
+                },
+                {
+                    id: 20,
+                    name: 'Camiseta Jordan Gris',
+                    description: 'Camiseta deportiva Jordan en color gris con el texto "JORDAN" en relieve en el pecho y el icónico logo del jugador saltando. Incluye el número "23" característico.',
+                    price: 52000.00,
+                    image: './img/19.jpg'
+                },
+                {
+                    id: 21,
+                    name: 'Camiseta DSQUARED2 Icon Negra',
+                    description: 'Camiseta negra de la marca italiana DSQUARED2 con el texto "ICON" en grande en el pecho y la placa distintiva "DSQUARED2" en color marrón. Diseño exclusivo y moderno.',
+                    price: 55000.00,
+                    image: './img/22.jpg'
+                },
+                {
+                    id: 22,
+                    name: 'Camiseta Belico Street Art',
+                    description: 'Camiseta negra con diseño urbano único de la marca Belico. Presenta una ilustración colorida de un personaje con sombrero rodeado de hojas y elementos gráficos con el texto "RX".',
+                    price: 42000.00,
+                    image: './img/21.jpg'
+                },
+                {
+                    id: 23,
+                    name: 'Camiseta Tommy Hilfiger Blanca',
+                    description: 'Camiseta blanca de la prestigiosa marca Tommy Hilfiger con el logo y texto "TOMMY HILFIGER" impreso en el centro. Estilo casual elegante y atemporal.',
+                    price: 55000.00,
+                    image: './img/23.jpg'
+                },
+                {
+                    id: 24,
+                    name: 'Camiseta Balenciaga Turquesa',
+                    description: 'Camiseta de lujo Balenciaga en color turquesa con el texto "BALENCIAGA" en letras negras en el pecho. Diseño minimalista de alta costura.',
+                    price: 55000.00,
+                    image: './img/24.jpg'
+                },
+                {
+                    id: 25,
+                    name: 'Camiseta Puma Negra Deportiva',
+                    description: 'Camiseta deportiva Puma en color negro con el logo de la marca y el texto "PUMA" en blanco en el lado izquierdo del pecho. Ideal para actividades deportivas.',
+                    price: 35000.00,
+                    image: './img/25.jpg'
+                },
+                {
+                    id: 26,
+                    name: 'Camiseta Nike Just Do It Blanca',
+                    description: 'Camiseta blanca Nike con el famoso eslogan "JUST DO IT" impreso en grande en el centro y el logo swoosh al costado. Diseño motivacional clásico.',
+                    price: 40000.00,
+                    image: './img/26.jpg'
+                },
+                {
+                    id: 27,
+                    name: 'Camiseta Jordan Rosa Premium',
+                    description: 'Camiseta Jordan en elegante color rosa claro con el logo y texto "JORDAN" en el centro. Incluye tres iconos de baloncesto y la palabra "White" en la parte inferior.',
+                    price: 58000.00,
+                    image: './img/27.jpg'
+                },
+                {
+                    id: 28,
+                    name: 'Camiseta NY New York Roja',
+                    description: 'Camiseta roja con diseño urbano presentando las letras "NY" en grande con gráficos que representan los edificios icónicos de Nueva York. Estilo casual metropolitano.',
+                    price: 32000.00,
+                    image: './img/29.jpg'
+                }
+            ],
+
+            'ninos-conjuntos': [
+                { id: 13, name: 'Conjunto Oversize Infantil en Color Blanco', description: 'Conjunto urbano para niño compuesto por una camiseta oversize de manga corta y shorts a juego, ambos en color blanco. La camiseta presenta el nombre de la marca "BURBERRY" en la parte frontal, mientras que el pantalón corto incluye un pequeño logo.', price: 99000.00, image: './img/13.jpg' },
+                { id: 14, name: 'Conjunto Oversize Infantil en Color Camel', description: 'Conjunto urbano para niño compuesto por una camiseta oversize de manga corta y shorts a juego, ambos en un elegante tono camel. La camiseta tiene el logo de "VERSACE" impreso en el pecho, mientras que el pantalón corto cuenta con una cintura ajustable con cordón y un pequeño detalle de la marca.', price: 99000.00, image: './img/14.jpg' },
+                { id: 15, name: 'Conjunto Oversize Infantil en Color Rojo', description: 'Conjunto urbano para niño en color rojo, compuesto por una camiseta oversize de manga corta y shorts a juego, ambos con el icónico logo de Louis Vuitton. Un diseño moderno y vibrante, ideal para un estilo casual con un toque exclusivo.', price: 99000.00, image: './img/15.jpg' },
+                { id: 16, name: 'Conjunto Oversize Infantil Burberry en Blanco', description: 'Conjunto urbano para niño en color blanco, compuesto por una camiseta oversize de manga corta y shorts a juego, ambos con el logo de Burberry. Este conjunto ofrece un estilo moderno y cómodo, perfecto para cualquier ocasión.', price: 99000.00, image: './img/16.jpg' },
+                { id: 17, name: 'Conjunto Oversize Infantil Prada en Color Arena', description: 'Conjunto urbano para niño compuesto por una camiseta oversize de manga corta y shorts a juego en un elegante tono arena con un sutil patrón geométrico. La camiseta presenta el logo de "PRADA" impreso en el pecho, aportando un toque exclusivo.', price: 99000.00, image: './img/17.jpg' }
+            ]
+        };
+
+        // Cart state
+        let cart = [];
+        let currentSection = '';
+        let currentSubsection = '';
+
+        // Navigation functions
+        function showHome() {
+            document.getElementById('home-section').classList.remove('hidden');
+            document.getElementById('category-section').classList.add('hidden');
+            document.getElementById('products-section').classList.add('hidden');
+            currentSection = '';
+            currentSubsection = '';
+        }
+
+        function showSection(section) {
+            currentSection = section;
+            currentSubsection = '';
+
+            document.getElementById('home-section').classList.add('hidden');
+            document.getElementById('category-section').classList.remove('hidden');
+            document.getElementById('products-section').classList.add('hidden');
+
+            document.getElementById('category-title').textContent = categories[section].title;
+
+            // Populate subsections
+            const subsectionsGrid = document.getElementById('subsections-grid');
+            subsectionsGrid.innerHTML = '';
+
+            categories[section].subsections.forEach(subsection => {
+                const subsectionCard = document.createElement('div');
+                subsectionCard.className = 'subsection-card rounded-lg p-6 text-center text-white cursor-pointer';
+                subsectionCard.onclick = () => showSubsection(section, subsection);
+                subsectionCard.innerHTML = `
+                    <i class="fas fa-tag text-3xl mb-4"></i>
+                    <h4 class="text-lg font-semibold">${subsection}</h4>
+                `;
+                subsectionsGrid.appendChild(subsectionCard);
+            });
+        }
+
+        function showSubsection(section, subsection) {
+            currentSubsection = subsection;
+
+            document.getElementById('category-section').classList.add('hidden');
+            document.getElementById('products-section').classList.remove('hidden');
+
+            document.getElementById('subsection-title').textContent = `${categories[section].title} - ${subsection}`;
+
+            // Get products for this subsection
+            const productKey = `${section}-${subsection.toLowerCase()}`;
+            const sectionProducts = products[productKey] || [];
+
+            // Populate products
+            const productsGrid = document.getElementById('products-grid');
+            productsGrid.innerHTML = '';
+
+            if (sectionProducts.length === 0) {
+                productsGrid.innerHTML = '<div class="col-span-full text-center text-gray-500 text-lg">Próximamente nuevos productos en esta categoría</div>';
+                return;
+            }
+
+            sectionProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card bg-white rounded-lg overflow-hidden';
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-64 object-cover">
+                    <div class="p-4">
+                        <h5 class="font-semibold text-lg mb-2 text-gray-800">${product.name}</h5>
+                        <p class="text-gray-600 text-sm mb-3">${product.description}</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-2xl font-bold text-purple-600">$${product.price}</span>
+                        </div>
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center space-x-2">
+                                <button onclick="changeQuantity(${product.id}, -1)" class="quantity-btn text-white w-8 h-8 rounded-full flex items-center justify-center hover:opacity-80">
+                                    <i class="fas fa-minus text-sm"></i>
+                                </button>
+                                <input type="number" id="qty-${product.id}" value="1" min="1" max="99" class="w-16 text-center border rounded py-1">
+                                <button onclick="changeQuantity(${product.id}, 1)" class="quantity-btn text-white w-8 h-8 rounded-full flex items-center justify-center hover:opacity-80">
+                                    <i class="fas fa-plus text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button onclick="addToCart(${product.id})" class="add-to-cart-btn w-full text-white py-2 rounded-lg font-semibold hover:opacity-90 transition duration-300">
+                            <i class="fas fa-shopping-cart mr-2"></i>Añadir al Carrito
+                        </button>
+                    </div>
+                `;
+                productsGrid.appendChild(productCard);
+            });
+        }
+
+        function goBack() {
+            if (currentSubsection) {
+                showSection(currentSection);
+            } else {
+                showHome();
+            }
+        }
+
+        // Cart functions
+        function changeQuantity(productId, change) {
+            const qtyInput = document.getElementById(`qty-${productId}`);
+            let newQty = parseInt(qtyInput.value) + change;
+            newQty = Math.max(1, Math.min(99, newQty));
+            qtyInput.value = newQty;
+        }
+
+        function addToCart(productId) {
+            const qtyInput = document.getElementById(`qty-${productId}`);
+            const quantity = parseInt(qtyInput.value);
+
+            let product = null;
+
+            // Find product in all categories
+            for (let categoryProducts of Object.values(products)) {
+                product = categoryProducts.find(p => p.id === productId);
+                if (product) break;
+            }
+
+            if (!product) return;
+
+            // Check if product already in cart
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: quantity
+                });
+            }
+
+            updateCartUI();
+
+            // Show success message
+            showMessage('Producto añadido al carrito', 'success');
+
+            // Reset quantity to 1
+            qtyInput.value = 1;
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+        }
+
+        function updateCartQuantity(productId, quantity) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity = Math.max(1, Math.min(99, quantity));
+                updateCartUI();
+            }
+        }
+
+        function updateCartUI() {
+            const cartCount = document.getElementById('cart-count');
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            const checkoutBtn = document.getElementById('checkout-btn');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            cartCount.textContent = totalItems;
+            cartTotal.textContent = `$${totalPrice.toFixed(2)}`;
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="text-gray-500 text-center">Tu carrito está vacío</p>';
+                checkoutBtn.disabled = true;
+            } else {
+                checkoutBtn.disabled = false;
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="cart-item p-4 rounded-lg mb-3">
+                        <div class="flex justify-between items-start mb-2">
+                            <h6 class="font-semibold text-sm">${item.name}</h6>
+                            <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center space-x-2">
+                                <button onclick="updateCartQuantity(${item.id}, ${item.quantity - 1})" class="quantity-btn text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <span class="w-8 text-center text-sm">${item.quantity}</span>
+                                <button onclick="updateCartQuantity(${item.id}, ${item.quantity + 1})" class="quantity-btn text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <span class="font-bold text-purple-600">$${(item.price * item.quantity).toFixed(2)}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function toggleCart() {
+            const cartSidebar = document.getElementById('cart-sidebar');
+            const cartOverlay = document.getElementById('cart-overlay');
+
+            if (cartSidebar.classList.contains('translate-x-full')) {
+                cartSidebar.classList.remove('translate-x-full');
+                cartOverlay.classList.remove('hidden');
+            } else {
+                cartSidebar.classList.add('translate-x-full');
+                cartOverlay.classList.add('hidden');
+            }
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            let message = `🛍️ *NUEVO PEDIDO - ARTENTELA*\n\n`;
+            message += `📋 *PRODUCTOS:*\n`;
+
+            cart.forEach(item => {
+                message += `• ${item.name}\n`;
+                message += `  Cantidad: ${item.quantity}\n`;
+                message += `  Precio unitario: $${item.price}\n`;
+                message += `  Subtotal: $${(item.price * item.quantity).toFixed(2)}\n\n`;
+            });
+
+            message += `💰 *TOTAL: $${totalPrice.toFixed(2)}*\n\n`;
+            message += `Por favor confirme la disponibilidad y proceda con el pedido. ¡Gracias por elegir Artentela! 🌟`;
+
+            const whatsappUrl = `https://wa.me/+573043847855?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function showMessage(message, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `fixed top-4 right-4 z-50 p-4 rounded-lg text-white font-semibold ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}`;
+            messageDiv.textContent = message;
+
+            document.body.appendChild(messageDiv);
+
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 3000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            showHome();
+            updateCartUI();
+        });
+    </script>
+</body>
+
+</html>
