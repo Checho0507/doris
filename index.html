@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * {
             font-family: 'Poppins', sans-serif;
@@ -601,7 +602,16 @@
             document.getElementById('category-section').classList.remove('hidden');
             document.getElementById('products-section').classList.add('hidden');
 
-            document.getElementById('category-title').textContent = categories[section].title;
+            const categoryElement = document.getElementById('category-title');
+
+            // Asegúrate de que el elemento existe
+            if (categoryElement) {
+                categoryElement.textContent = categories[section].title;
+                categoryElement.classList.add('text-purple-600');
+            } else {
+                console.error('No se encontró el elemento con ID "category-title"');
+            }
+
 
             // Populate subsections
             const subsectionsGrid = document.getElementById('subsections-grid');
@@ -625,7 +635,10 @@
             document.getElementById('category-section').classList.add('hidden');
             document.getElementById('products-section').classList.remove('hidden');
 
-            document.getElementById('subsection-title').textContent = `${categories[section].title} - ${subsection}`;
+            const titleElement = document.getElementById('subsection-title');
+            titleElement.textContent = `${categories[section].title} - ${subsection}`;
+            titleElement.classList.add('text-purple-600');
+
 
             // Get products for this subsection
             const productKey = `${section}-${subsection.toLowerCase()}`;
